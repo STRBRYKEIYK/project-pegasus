@@ -163,8 +163,8 @@ export function Layout491() {
                   description:
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.",
                   image: {
-                    src: "https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg",
-                    alt: "Relume placeholder image 1",
+                    src: "/images/hero-bg-cyber.png",
+                    alt: "Automated payouts visualization",
                   },
                 }}
                 index={0}
@@ -177,8 +177,8 @@ export function Layout491() {
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.",
                   video: {
                     image: {
-                      src: "https://d22po4pjz3o32e.cloudfront.net/placeholder-video-thumbnail.svg",
-                      alt: "Relume placeholder image 2",
+                      src: "/images/hero-bg-cyber.png",
+                      alt: "Compliance workflow video",
                     },
                     url: "https://www.youtube.com/embed/8DKLYsikxTs?si=Ch9W0KrDWWUiCMMW",
                   },
@@ -192,8 +192,8 @@ export function Layout491() {
                   description:
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.",
                   image: {
-                    src: "https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg",
-                    alt: "Relume placeholder image 3",
+                    src: "/images/hero-bg-cyber.png",
+                    alt: "Global tax compliance visualization",
                   },
                 }}
                 index={2}
