@@ -17,8 +17,8 @@ export const metadata = {
 
 export default function HowItWorksPage() {
   return (
-    <div>
-      <SharedNavbar />
+    <div className="page-wrapper">
+      <SharedNavbar />`n      <main style={{ paddingTop: "68px" }}>
       <Header69 />
       <Layout513 />
       <Layout491 />
@@ -28,6 +28,8 @@ export default function HowItWorksPage() {
       <Testimonial17 />
       <Cta31 />
       <Footer4 />
+        </main>
     </div>
   );
 }
+

@@ -12,12 +12,14 @@ export const metadata = {
 
 export default function FaqPage() {
   return (
-    <div>
-      <SharedNavbar />
+    <div className="page-wrapper">
+      <SharedNavbar />`n      <main style={{ paddingTop: "68px" }}>
       <Header69 />
       <Faq4 />
       <Cta31 />
       <Footer4 />
+        </main>
     </div>
   );
 }
+

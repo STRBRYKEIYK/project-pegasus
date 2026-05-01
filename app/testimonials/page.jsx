@@ -14,14 +14,16 @@ export const metadata = {
 
 export default function TestimonialsPage() {
   return (
-    <div>
-      <SharedNavbar />
+    <div className="page-wrapper">
+      <SharedNavbar />`n      <main style={{ paddingTop: "68px" }}>
       <Header69 />
       <Testimonial17 />
       <Testimonial17_1 />
       <Logo1 />
       <Cta31 />
       <Footer4 />
+        </main>
     </div>
   );
 }
+

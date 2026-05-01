@@ -16,8 +16,8 @@ export const metadata = {
 
 export default function CommissionEnginePage() {
   return (
-    <div>
-      <SharedNavbar />
+    <div className="page-wrapper">
+      <SharedNavbar />`n      <main style={{ paddingTop: "68px" }}>
       <Header69 />
       <Layout504 />
       <Layout503 />
@@ -26,6 +26,8 @@ export default function CommissionEnginePage() {
       <Testimonial17 />
       <Cta31 />
       <Footer4 />
+        </main>
     </div>
   );
 }
+

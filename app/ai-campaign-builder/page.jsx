@@ -16,8 +16,8 @@ export const metadata = {
 
 export default function AiCampaignBuilderPage() {
   return (
-    <div>
-      <SharedNavbar />
+    <div className="page-wrapper">
+      <SharedNavbar />`n      <main style={{ paddingTop: "68px" }}>
       <Header69 />
       <Layout491 />
       <Layout503 />
@@ -26,6 +26,8 @@ export default function AiCampaignBuilderPage() {
       <Faq4 />
       <Cta31 />
       <Footer4 />
+        </main>
     </div>
   );
 }
+

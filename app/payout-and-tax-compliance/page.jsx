@@ -18,8 +18,8 @@ export const metadata = {
 
 export default function PayoutAndTaxCompliancePage() {
   return (
-    <div>
-      <SharedNavbar />
+    <div className="page-wrapper">
+      <SharedNavbar />`n      <main style={{ paddingTop: "68px" }}>
       <Header69 />
       <Layout19 />
       <Layout13 />
@@ -30,6 +30,8 @@ export default function PayoutAndTaxCompliancePage() {
       <Faq4 />
       <Cta31 />
       <Footer4 />
+        </main>
     </div>
   );
 }
+

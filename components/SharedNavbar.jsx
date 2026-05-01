@@ -1,11 +1,9 @@
 "use client";
 
-import { Button } from "@relume_io/relume-ui";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
-import clsx from "clsx";
+import React, { useState, useEffect } from "react";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -17,114 +15,254 @@ const navLinks = [
 
 export function SharedNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <section
-      id="navbar"
-      className="sticky top-0 z-50 grid h-auto w-full grid-cols-[1fr_max-content_1fr] items-center justify-between border-b border-border-primary bg-background-primary px-[5%] md:min-h-18"
-    >
-      {/* Mobile hamburger */}
-      <button
-        className="flex size-12 flex-col justify-center lg:hidden"
-        onClick={toggleMobileMenu}
-        aria-label="Toggle menu"
+    <>
+      <nav
+        className={`nav-glass transition-all duration-300 ${
+          scrolled ? "scrolled-nav" : ""
+        }`}
+        style={{
+          background: scrolled
+            ? "rgba(3,7,18,0.95)"
+            : "rgba(3,7,18,0.7)",
+          borderBottom: scrolled
+            ? "1px solid rgba(99,202,255,0.15)"
+            : "1px solid rgba(255,255,255,0.05)",
+        }}
       >
-        <span className="my-[3px] h-0.5 w-6 bg-black" />
-        <span className="my-[3px] h-0.5 w-6 bg-black" />
-        <span className="my-[3px] h-0.5 w-6 bg-black" />
-      </button>
+        {/* Logo */}
+        <Link href="/" className="nav-logo" style={{ marginRight: "auto" }}>
+          Affiliate
+          <span>AI</span>
+        </Link>
+
+        {/* Desktop nav */}
+        <ul
+          className="nav-links"
+          style={{
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+        >
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className={`nav-link ${pathname === link.href ? "active" : ""}`}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* Right CTA */}
+        <div
+          style={{
+            marginLeft: "auto",
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+          }}
+        >
+          <Link
+            href="/pricing"
+            className="btn-primary"
+            style={{ fontSize: "0.8125rem" }}
+          >
+            Get Started →
+          </Link>
+
+          {/* Mobile burger */}
+          <button
+            onClick={() => setIsMobileMenuOpen((p) => !p)}
+            aria-label="Toggle menu"
+            style={{
+              display: "none",
+              background: "none",
+              border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: "6px",
+              width: "40px",
+              height: "40px",
+              cursor: "pointer",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
+            }}
+            className="mobile-burger"
+          >
+            <span
+              style={{
+                display: "block",
+                width: "18px",
+                height: "1.5px",
+                background: "var(--text-secondary)",
+                transition: "all 0.2s",
+                transform: isMobileMenuOpen
+                  ? "rotate(45deg) translate(4px, 4px)"
+                  : "none",
+              }}
+            />
+            <span
+              style={{
+                display: "block",
+                width: "18px",
+                height: "1.5px",
+                background: "var(--text-secondary)",
+                transition: "all 0.2s",
+                opacity: isMobileMenuOpen ? 0 : 1,
+              }}
+            />
+            <span
+              style={{
+                display: "block",
+                width: "18px",
+                height: "1.5px",
+                background: "var(--text-secondary)",
+                transition: "all 0.2s",
+                transform: isMobileMenuOpen
+                  ? "rotate(-45deg) translate(4px, -4px)"
+                  : "none",
+              }}
+            />
+          </button>
+        </div>
+      </nav>
 
       {/* Mobile drawer */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
             <motion.div
+              key="overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{
+                position: "fixed",
+                inset: 0,
+                zIndex: 998,
+                background: "rgba(3,7,18,0.8)",
+                backdropFilter: "blur(4px)",
+              }}
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            <motion.aside
               key="drawer"
-              initial={{ x: "-100%" }}
+              initial={{ x: "100%" }}
               animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", duration: 0.4, bounce: 0 }}
-              className="absolute left-0 top-0 z-50 flex h-dvh w-[85%] flex-col border-r border-border-primary bg-white px-[5%] pb-4 md:w-[60%]"
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              style={{
+                position: "fixed",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                width: "min(320px, 90vw)",
+                zIndex: 999,
+                background: "var(--deep-navy)",
+                borderLeft: "1px solid var(--border)",
+                padding: "2rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: "2rem",
+              }}
             >
-              <Link
-                href="/"
-                className="mb-8 mt-10 flex flex-shrink-0"
-                onClick={() => setIsMobileMenuOpen(false)}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
-                <span className="text-xl font-bold text-black">AffiliateAI</span>
-              </Link>
-              <nav className="flex flex-col gap-4">
+                <Link
+                  href="/"
+                  className="nav-logo"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Affiliate<span>AI</span>
+                </Link>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    background: "none",
+                    border: "1px solid var(--border)",
+                    color: "var(--text-secondary)",
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    fontSize: "1rem",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              <nav style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={clsx(
-                      "text-base font-medium transition-colors hover:text-link-primary",
-                      pathname === link.href
-                        ? "text-link-primary font-semibold"
-                        : "text-text-primary"
-                    )}
+                    style={{
+                      padding: "0.875rem 1rem",
+                      borderRadius: "8px",
+                      fontFamily: "'Syne', sans-serif",
+                      fontWeight: 600,
+                      fontSize: "1.0625rem",
+                      textDecoration: "none",
+                      color:
+                        pathname === link.href
+                          ? "var(--cyan)"
+                          : "var(--text-secondary)",
+                      background:
+                        pathname === link.href
+                          ? "rgba(0,212,255,0.06)"
+                          : "transparent",
+                      transition: "all 0.2s ease",
+                      display: "block",
+                    }}
                   >
                     {link.label}
                   </Link>
                 ))}
               </nav>
-              <div className="mt-auto pt-6 flex flex-col gap-3">
-                <Button size="sm" className="w-full" asChild>
-                  <Link href="/pricing">Get Started</Link>
-                </Button>
-              </div>
-            </motion.div>
 
-            {/* Overlay */}
-            <motion.div
-              key="overlay"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.5 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black lg:hidden"
-              onClick={toggleMobileMenu}
-            />
+              <div style={{ marginTop: "auto" }}>
+                <Link
+                  href="/pricing"
+                  className="btn-hero"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{ width: "100%", justifyContent: "center" }}
+                >
+                  Get Started →
+                </Link>
+              </div>
+            </motion.aside>
           </>
         )}
       </AnimatePresence>
 
-      {/* Logo — center column */}
-      <Link
-        href="/"
-        className="flex min-h-16 flex-shrink-0 items-center justify-center"
-      >
-        <span className="text-xl font-bold text-black tracking-tight">
-          Affiliate<span className="text-link-primary">AI</span>
-        </span>
-      </Link>
-
-      {/* Desktop nav — right column */}
-      <div className="hidden lg:flex min-h-16 items-center justify-end gap-x-8">
-        <nav className="flex items-center gap-x-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={clsx(
-                "text-sm font-medium transition-colors hover:text-link-primary",
-                pathname === link.href
-                  ? "text-link-primary font-semibold"
-                  : "text-text-primary"
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <Button size="sm" className="px-4 py-1 md:px-6 md:py-2" asChild>
-          <Link href="/pricing">Get Started</Link>
-        </Button>
-      </div>
-    </section>
+      <style>{`
+        @media (max-width: 1024px) {
+          .mobile-burger { display: flex !important; }
+        }
+      `}</style>
+    </>
   );
 }
